@@ -1,6 +1,6 @@
 package org.example.personagem
 
-class Atributo(var nome: String, var nivelAtual: Int) {
+class Atributo(var nome: String, var nivelAtual: Int, var bonusRaca: Int, var bonusClasse: Int) {
     var detalhesNiveisCriacao = listOf(
         NivelAtributoDetalhes(9, 1, -1),
         NivelAtributoDetalhes(10, 2, 0),
@@ -19,5 +19,9 @@ class Atributo(var nome: String, var nivelAtual: Int) {
             }
         }
         return opcoesDisponiveis
+    }
+
+    fun buscarModificadorAtual(): Int {
+        return detalhesNiveisCriacao.filter { it.nivel == nivelAtual }[0].modificador
     }
 }

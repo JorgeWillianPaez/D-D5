@@ -5,17 +5,19 @@ import org.example.character.races.IRaca
 
 class Personagem(var raca : IRaca, var classe : IClasse) {
     var nome: String = ""
-    var nivel: Int = 1
-    var xp: Double = 0.0
     var vida: Int = 10
     var pontosDeAtributos = 27
 
-    val forca = Atributo("Força", 8)
-    val destreza = Atributo("Destreza", 8)
-    val constituicao = Atributo("Constituição", 8)
-    val inteligencia = Atributo("Inteligência", 8)
-    val sabedoria = Atributo("Sabedoria", 8)
-    val carisma = Atributo("Carisma", 8)
+    val forca = Atributo("Força", 8, 0, 0)
+    val destreza = Atributo("Destreza", 8, 0, 0)
+    val constituicao = Atributo("Constituição", 8, 0, 0)
+    val inteligencia = Atributo("Inteligência", 8, 0, 0)
+    val sabedoria = Atributo("Sabedoria", 8, 0, 0)
+    val carisma = Atributo("Carisma", 8, 0, 0)
+
+    fun calcularVidaInicial() {
+        vida += constituicao.buscarModificadorAtual() + constituicao.bonusRaca + constituicao.bonusClasse
+    }
 
     fun distribuirPontosIniciais() {
         val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)

@@ -4,7 +4,7 @@ import org.example.character.classes.IClasse
 import org.example.character.races.IRaca
 import org.example.personagem.Personagem
 import org.example.classes.Barbaro
-import org.example.racas.Anao
+import org.example.racas.*
 
 fun main() {
     println("CRIAÇÃO DE PERSONAGEM:")
@@ -14,7 +14,15 @@ fun main() {
     var classeEscolhida: IClasse? = null
 
     var possiveisRacas = arrayOf(
-        Anao()
+        Anao(),
+        Draconato(),
+        Elfo(),
+        Gnomo(),
+        Halfing(),
+        Humano(),
+        MeioElfo(),
+        MeioOrc(),
+        Tiefling()
     )
     var possiveisClasses = arrayOf(
         Barbaro()

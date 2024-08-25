@@ -3,11 +3,13 @@ package org.example.racas
 import org.example.character.races.IRaca
 import org.example.personagem.Personagem
 
-class Anao : IRaca {
-    override var nome = "Anão"
-    private val bonusConstituicao = 2
+class MeioOrc : IRaca {
+    override var nome = "Meio-Orc"
+    private val bonusForca = 2
+    private val bonusConstituicao = 1
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
+        personagem.forca.bonusRaca = bonusForca
         personagem.constituicao.bonusRaca = bonusConstituicao
         return personagem
     }
