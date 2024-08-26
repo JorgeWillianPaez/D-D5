@@ -24,6 +24,7 @@ fun main() {
         MeioOrc(),
         Tiefling()
     )
+
     var possiveisClasses = arrayOf(
         Barbaro()
     )
@@ -56,6 +57,7 @@ fun main() {
             racaEscolhida = possiveisRacas[opcao - 1]
         }
     }
+
     println("-----------------------------------")
     println("Escolha sua classe:")
 
@@ -90,8 +92,8 @@ fun main() {
     while (opcaoDistribuicao !in opcoesDisponiveisDistribuicao) {
         println("Opção | Descrição")
         println("1     | Distribuir 27 pontos iniciais.")
-        println("2     | Utilizar os dados (4d6). (Em desenvolvimento...)")
-        println("3     | Utilizar os valores pré definidos (15, 14, 13, 12, 10, 8)(Em desenvolvimento...)")
+        println("2     | Utilizar os dados (4d6).")
+        println("3     | Utilizar os valores pré definidos (15, 14, 13, 12, 10, 8).")
 
         print("Digite a opção: ")
         opcaoDistribuicao = readln().toInt()
@@ -110,14 +112,17 @@ fun main() {
         3 -> personagem.distribuirPreDefinidosIniciais()
     }
 
+    personagem = personagem.raca.aplicarProficienciaInicial(personagem)
+    personagem.calcularVidaInicial()
+
     println("Parabéns, seu personagem está criado e pronto para jogar!")
     println("Nome: ${personagem.nome} | Raça: ${personagem.raca.nome} | Classe: ${personagem.classe.nome}")
-    println("--------------------------------------")
+    println("Vida do personagem: ${personagem.vida}")
     println("******* Atributos *******")
-    println("Força: ${personagem.forca.nivelAtual}")
-    println("Destreza: ${personagem.destreza.nivelAtual}")
-    println("Constituição: ${personagem.constituicao.nivelAtual}")
-    println("Inteligência: ${personagem.inteligencia.nivelAtual}")
-    println("Sabedoria: ${personagem.sabedoria.nivelAtual}")
-    println("Carisma: ${personagem.carisma.nivelAtual}")
+    println("Força: ${personagem.forca.nivelAtual} | Modificador atual = ${personagem.forca.buscarModificadorAtual()}")
+    println("Destreza: ${personagem.destreza.nivelAtual} | Modificador atual = ${personagem.destreza.buscarModificadorAtual()}")
+    println("Constituição: ${personagem.constituicao.nivelAtual} | Modificador atual = ${personagem.constituicao.buscarModificadorAtual()}")
+    println("Inteligência: ${personagem.inteligencia.nivelAtual} | Modificador atual = ${personagem.inteligencia.buscarModificadorAtual()}")
+    println("Sabedoria: ${personagem.sabedoria.nivelAtual} | Modificador atual = ${personagem.sabedoria.buscarModificadorAtual()}")
+    println("Carisma: ${personagem.carisma.nivelAtual} | Modificador atual = ${personagem.carisma.buscarModificadorAtual()}")
 }

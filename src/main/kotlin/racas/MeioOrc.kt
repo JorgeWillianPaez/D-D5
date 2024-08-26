@@ -9,8 +9,8 @@ class MeioOrc : IRaca {
     private val bonusConstituicao = 1
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.forca.bonusRaca = bonusForca
-        personagem.constituicao.bonusRaca = bonusConstituicao
+        personagem.forca.nivelAtual += bonusForca
+        personagem.constituicao.nivelAtual += bonusConstituicao
         return personagem
     }
 }

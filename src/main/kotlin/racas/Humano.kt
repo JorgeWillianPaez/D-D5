@@ -13,12 +13,12 @@ class Humano : IRaca {
     private val bonusCarisma = 1
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.forca.bonusRaca = bonusForca
-        personagem.destreza.bonusRaca = bonusDestreza
-        personagem.constituicao.bonusRaca = bonusConstituicao
-        personagem.inteligencia.bonusRaca = bonusInteligencia
-        personagem.sabedoria.bonusRaca = bonusSabedoria
-        personagem.carisma.bonusRaca = bonusCarisma
+        personagem.forca.nivelAtual += bonusForca
+        personagem.destreza.nivelAtual += bonusDestreza
+        personagem.constituicao.nivelAtual += bonusConstituicao
+        personagem.inteligencia.nivelAtual += bonusInteligencia
+        personagem.sabedoria.nivelAtual += bonusSabedoria
+        personagem.carisma.nivelAtual += bonusCarisma
         return personagem
     }
 }

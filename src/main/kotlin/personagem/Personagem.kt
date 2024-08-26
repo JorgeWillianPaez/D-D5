@@ -2,6 +2,7 @@ package org.example.personagem
 
 import org.example.character.classes.IClasse
 import org.example.character.races.IRaca
+import org.example.dado.D6
 
 class Personagem(var raca : IRaca, var classe : IClasse) {
     var nome: String = ""
@@ -16,7 +17,7 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
     val carisma = Atributo("Carisma", 8, 0, 0)
 
     fun calcularVidaInicial() {
-        vida += constituicao.buscarModificadorAtual() + constituicao.bonusRaca + constituicao.bonusClasse
+        vida += constituicao.buscarModificadorAtual()
     }
 
     fun distribuirPontosIniciais() {
@@ -40,13 +41,17 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
                 println("${index + 1}     | ${value.nome}")
             }
 
-            print("Digite a opção: ")
-            var atributoEscolhido = readln().toInt() - 1
+            var atributoEscolhido: Int
 
-            if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
-                println("Opção indisponível! Tente novamente...")
-                println("--------------------------------------")
-            }
+            do {
+                print("Digite a opção: ")
+                atributoEscolhido = readln().toInt() - 1
+
+                if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
+                    println("Opção indisponível! Tente novamente...")
+                    println("--------------------------------------")
+                }
+            } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
 
             println("--------------------------------------")
 
@@ -59,8 +64,17 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
                 println("${index + 1}     |${value.nivel}     |${value.custo}")
             }
 
-            print("Digite a opção: ")
-            var nivelEscolhido = readln().toInt() - 1
+            var nivelEscolhido: Int = -1
+
+            do {
+                print("Digite a opção: ")
+                nivelEscolhido = readln().toInt() - 1
+
+                if (nivelEscolhido < 0 || nivelEscolhido >= niveisDisponiveis.count()) {
+                    println("Opção indisponível! Tente novamente...")
+                    println("--------------------------------------")
+                }
+            } while (nivelEscolhido < 0 || nivelEscolhido >= niveisDisponiveis.count())
 
             pontosDeAtributos -= niveisDisponiveis[nivelEscolhido].custo
 
@@ -77,6 +91,101 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
         }
     }
 
+    fun rolarDadosIniciais() {
+        val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)
+        var index = 0
+        val dado = D6()
+
+        var valoresGerados = mutableListOf<Int>()
+
+        while (index < 6) {
+            index++
+            var dadoAtual: Int = 0
+            var valores = mutableListOf<Int>()
+
+            print("Pressione 'Enter' para rolar os dados...")
+            readln()
+            while (dadoAtual < 4) {
+                valores.add(dado.rolarDado())
+                dadoAtual++
+            }
+
+            println("Valores gerados:")
+            for ((index, value) in valores.withIndex()) {
+                println("${index + 1}° valor: ${value}")
+            }
+
+            valores.sort()
+            valores.removeFirst()
+
+            var soma = valores.sum()
+
+            valoresGerados.add(soma)
+
+            println("Soma dos 3 maiores valores: ${soma}")
+            println("--------------------------------------")
+        }
+
+        println("Distribua cada valor gerado para cada um dos atributos")
+        println(valoresGerados.joinToString(separator = " | "))
+
+        for (valor in valoresGerados) {
+            println("Para qual atributo deseja inserir o valor ${valor}?")
+
+            println("Opção | Atributo")
+            for ((index, value) in atributosParaEscolher.withIndex()) {
+                println("${index + 1}     | ${value.nome}")
+            }
+
+            var atributoEscolhido: Int
+
+            do {
+                print("Digite a opção: ")
+                atributoEscolhido = readln().toInt() - 1
+
+                if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
+                    println("Opção indisponível! Tente novamente...")
+                    println("--------------------------------------")
+                }
+            } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
+
+            melhorarNivelAtributo(atributosParaEscolher[atributoEscolhido].nome, valor)
+            atributosParaEscolher.remove(atributosParaEscolher[atributoEscolhido])
+        }
+    }
+
+    fun distribuirPreDefinidosIniciais() {
+        val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)
+        var valores = arrayListOf<Int>(15, 14, 13, 12, 10, 8)
+
+        println("Distribua cada valor para cada um dos atributos")
+        println(valores.joinToString(separator = " | "))
+
+        for (valor in valores) {
+            println("Para qual atributo deseja inserir o valor ${valor}?")
+
+            println("Opção | Atributo")
+            for ((index, value) in atributosParaEscolher.withIndex()) {
+                println("${index + 1}     | ${value.nome}")
+            }
+
+            var atributoEscolhido: Int
+
+            do {
+                print("Digite a opção: ")
+                atributoEscolhido = readln().toInt() - 1
+
+                if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
+                    println("Opção indisponível! Tente novamente...")
+                    println("--------------------------------------")
+                }
+            } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
+
+            melhorarNivelAtributo(atributosParaEscolher[atributoEscolhido].nome, valor)
+            atributosParaEscolher.remove(atributosParaEscolher[atributoEscolhido])
+        }
+    }
+
     fun melhorarNivelAtributo(nomeAtributo: String, novoNivel: Int) {
         when (nomeAtributo) {
             "Força" -> forca.nivelAtual = novoNivel
@@ -86,13 +195,5 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
             "Sabedoria" -> sabedoria.nivelAtual = novoNivel
             "Carisma" -> carisma.nivelAtual = novoNivel
         }
-    }
-
-    fun rolarDadosIniciais() {
-        println("Em desenvolvimento...")
-    }
-
-    fun distribuirPreDefinidosIniciais() {
-        println("Em desenvolvimento...")
     }
 }

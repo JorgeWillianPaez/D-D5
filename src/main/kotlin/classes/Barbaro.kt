@@ -10,7 +10,7 @@ class Barbaro: IClasse {
     private val forca = 2
 
     override fun rolarDadoVida(): Int {
-        return this.dadoVida.rodarDado()
+        return this.dadoVida.rolarDado()
     }
 
     override fun aplicarProficienciaInicial(personagem: Personagem): Personagem {

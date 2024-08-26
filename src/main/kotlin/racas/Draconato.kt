@@ -9,8 +9,8 @@ class Draconato : IRaca {
     private val bonusCarisma = 1
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.forca.bonusRaca = bonusForca
-        personagem.carisma.bonusRaca = bonusCarisma
+        personagem.forca.nivelAtual += bonusForca
+        personagem.carisma.nivelAtual += bonusCarisma
         return personagem
     }
 }

@@ -8,7 +8,7 @@ class Anao : IRaca {
     private val bonusConstituicao = 2
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.constituicao.bonusRaca = bonusConstituicao
+        personagem.constituicao.nivelAtual += bonusConstituicao
         return personagem
     }
 }

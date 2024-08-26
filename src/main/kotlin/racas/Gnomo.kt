@@ -8,7 +8,7 @@ class Gnomo : IRaca {
     private val bonusInteligencia = 2
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.inteligencia.bonusRaca = bonusInteligencia
+        personagem.inteligencia.nivelAtual += bonusInteligencia
         return personagem
     }
 }

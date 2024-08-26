@@ -3,8 +3,8 @@ package org.example.dado
 import kotlin.random.Random
 
 class D20 : IDado {
-    override fun rodarDado(): Int {
-        val random = Random.nextInt(21)
+    override fun rolarDado(): Int {
+        val random = Random.nextInt(1, 21)
         return random
     }
 }

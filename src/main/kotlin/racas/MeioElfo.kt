@@ -8,7 +8,7 @@ class MeioElfo : IRaca {
     private val bonusCarisma = 2
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.carisma.bonusRaca = bonusCarisma
+        personagem.carisma.nivelAtual += bonusCarisma
         return personagem
     }
 }

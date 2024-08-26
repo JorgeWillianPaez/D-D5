@@ -8,7 +8,7 @@ class Elfo : IRaca {
     private val bonusDestreza = 2
 
     override fun aplicarProficienciaInicial(personagem : Personagem): Personagem {
-        personagem.destreza.bonusRaca = bonusDestreza
+        personagem.destreza.nivelAtual += bonusDestreza
         return personagem
     }
 }
