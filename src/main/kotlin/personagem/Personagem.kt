@@ -16,13 +16,13 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
     val sabedoria = Atributo("Sabedoria", 8, 0, 0)
     val carisma = Atributo("Carisma", 8, 0, 0)
 
+    val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)
+
     fun calcularVidaInicial() {
         vida += constituicao.buscarModificadorAtual()
     }
 
     fun distribuirPontosIniciais() {
-        val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)
-
         while (!atributosParaEscolher.isEmpty() || pontosDeAtributos > 1) {
             for (attr in atributosParaEscolher) {
                 if (attr.niveisDisponiveis(pontosDeAtributos).isEmpty()) {
@@ -34,24 +34,10 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
                 break
             }
 
-            println("Seu saldo de pontos de atributo é: ${pontosDeAtributos}")
+            println("Seu saldo de pontos de atributo é: $pontosDeAtributos")
             println("Escolha um atributo para melhorar:")
-            println("Opção | Atributo")
-            for ((index, value) in atributosParaEscolher.withIndex()) {
-                println("${index + 1}     | ${value.nome}")
-            }
 
-            var atributoEscolhido: Int
-
-            do {
-                print("Digite a opção: ")
-                atributoEscolhido = readln().toInt() - 1
-
-                if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
-                    println("Opção indisponível! Tente novamente...")
-                    println("--------------------------------------")
-                }
-            } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
+            val atributoEscolhido = escolherAtributo()
 
             println("--------------------------------------")
 
@@ -60,11 +46,11 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
             println("Escolha um nível para melhorar seu atributo '${atributosParaEscolher[atributoEscolhido].nome}':")
 
             println("Opção | Nível | Custo")
-            for ((index, value) in niveisDisponiveis.withIndex()) {
-                println("${index + 1}     |${value.nivel}     |${value.custo}")
+            for ((i, value) in niveisDisponiveis.withIndex()) {
+                println("${i + 1}     |${value.nivel}     |${value.custo}")
             }
 
-            var nivelEscolhido: Int = -1
+            var nivelEscolhido: Int
 
             do {
                 print("Digite a opção: ")
@@ -92,16 +78,15 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
     }
 
     fun rolarDadosIniciais() {
-        val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)
         var index = 0
         val dado = D6()
 
-        var valoresGerados = mutableListOf<Int>()
+        val valoresGerados = mutableListOf<Int>()
 
         while (index < 6) {
             index++
             var dadoAtual: Int = 0
-            var valores = mutableListOf<Int>()
+            val valores = mutableListOf<Int>()
 
             print("Pressione 'Enter' para rolar os dados...")
             readln()
@@ -111,82 +96,69 @@ class Personagem(var raca : IRaca, var classe : IClasse) {
             }
 
             println("Valores gerados:")
-            for ((index, value) in valores.withIndex()) {
-                println("${index + 1}° valor: ${value}")
+            for ((i, value) in valores.withIndex()) {
+                println("${i + 1}° valor: $value")
             }
 
             valores.sort()
             valores.removeFirst()
 
-            var soma = valores.sum()
+            val soma = valores.sum()
 
             valoresGerados.add(soma)
 
-            println("Soma dos 3 maiores valores: ${soma}")
+            println("Soma dos 3 maiores valores: $soma")
             println("--------------------------------------")
         }
 
-        println("Distribua cada valor gerado para cada um dos atributos")
+        println("Distribua cada valor para cada um dos atributos")
         println(valoresGerados.joinToString(separator = " | "))
 
-        for (valor in valoresGerados) {
-            println("Para qual atributo deseja inserir o valor ${valor}?")
-
-            println("Opção | Atributo")
-            for ((index, value) in atributosParaEscolher.withIndex()) {
-                println("${index + 1}     | ${value.nome}")
-            }
-
-            var atributoEscolhido: Int
-
-            do {
-                print("Digite a opção: ")
-                atributoEscolhido = readln().toInt() - 1
-
-                if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
-                    println("Opção indisponível! Tente novamente...")
-                    println("--------------------------------------")
-                }
-            } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
-
-            melhorarNivelAtributo(atributosParaEscolher[atributoEscolhido].nome, valor)
-            atributosParaEscolher.remove(atributosParaEscolher[atributoEscolhido])
-        }
+        distribuirValores(valoresGerados)
     }
 
     fun distribuirPreDefinidosIniciais() {
-        val atributosParaEscolher = mutableListOf<Atributo>(forca, destreza, constituicao, inteligencia, sabedoria, carisma)
-        var valores = arrayListOf<Int>(15, 14, 13, 12, 10, 8)
+        val valores = mutableListOf<Int>(15, 14, 13, 12, 10, 8)
 
         println("Distribua cada valor para cada um dos atributos")
         println(valores.joinToString(separator = " | "))
 
+        distribuirValores(valores)
+    }
+
+    private fun distribuirValores(valores: MutableList<Int>) {
         for (valor in valores) {
             println("Para qual atributo deseja inserir o valor ${valor}?")
 
-            println("Opção | Atributo")
-            for ((index, value) in atributosParaEscolher.withIndex()) {
-                println("${index + 1}     | ${value.nome}")
-            }
-
-            var atributoEscolhido: Int
-
-            do {
-                print("Digite a opção: ")
-                atributoEscolhido = readln().toInt() - 1
-
-                if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
-                    println("Opção indisponível! Tente novamente...")
-                    println("--------------------------------------")
-                }
-            } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
+            val atributoEscolhido = escolherAtributo()
 
             melhorarNivelAtributo(atributosParaEscolher[atributoEscolhido].nome, valor)
             atributosParaEscolher.remove(atributosParaEscolher[atributoEscolhido])
         }
     }
 
-    fun melhorarNivelAtributo(nomeAtributo: String, novoNivel: Int) {
+    private fun escolherAtributo(): Int {
+        println("Opção | Atributo")
+        for ((i, value) in atributosParaEscolher.withIndex()) {
+            println("${i + 1}     | ${value.nome}")
+        }
+
+        var atributoEscolhido: Int
+
+        do {
+            print("Digite a opção: ")
+            atributoEscolhido = readln().toInt() - 1
+
+            if (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count()) {
+                println("Opção indisponível! Tente novamente...")
+                println("--------------------------------------")
+            }
+        } while (atributoEscolhido < 0 || atributoEscolhido >= atributosParaEscolher.count())
+
+        return atributoEscolhido
+    }
+
+    private fun melhorarNivelAtributo(nomeAtributo: String, novoNivel: Int) {
         when (nomeAtributo) {
             "Força" -> forca.nivelAtual = novoNivel
             "Destreza" -> destreza.nivelAtual = novoNivel

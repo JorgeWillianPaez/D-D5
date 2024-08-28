@@ -13,7 +13,7 @@ fun main() {
     var racaEscolhida: IRaca? = null
     var classeEscolhida: IClasse? = null
 
-    var possiveisRacas = arrayOf(
+    val possiveisRacas = arrayOf(
         Anao(),
         Draconato(),
         Elfo(),
@@ -25,21 +25,21 @@ fun main() {
         Tiefling()
     )
 
-    var possiveisClasses = arrayOf(
+    val possiveisClasses = arrayOf(
         Barbaro()
     )
 
-    var personagem: Personagem? = null
+    var personagem: Personagem?
 
     print("Primeiramente, insira o nome do seu personagem: ")
-    var nomePersonagem = readLine()
+    val nomePersonagem = readlnOrNull()
 
     println("--------------------------------------")
 
     println("Escolha sua raça:")
 
     while (racaEscolhida == null) {
-        var opcoesDisponiveis = mutableListOf<Int>()
+        val opcoesDisponiveis = mutableListOf<Int>()
 
         println("Opção | Raça")
         for((index, raca) in possiveisRacas.withIndex()){
@@ -48,7 +48,7 @@ fun main() {
         }
 
         print("Digite a opção: ")
-        var opcao = readln().toInt()
+        val opcao = readln().toInt()
 
         if (opcao !in opcoesDisponiveis) {
             println("Opção indisponível! Tente novamente...")
@@ -62,7 +62,7 @@ fun main() {
     println("Escolha sua classe:")
 
     while (classeEscolhida == null) {
-        var opcoesDisponiveis = mutableListOf<Int>()
+        val opcoesDisponiveis = mutableListOf<Int>()
 
         println("Opção | Classe")
         for((index, classe) in possiveisClasses.withIndex()){
@@ -71,7 +71,7 @@ fun main() {
         }
 
         print("Digite a opção: ")
-        var opcao = readln().toInt()
+        val opcao = readln().toInt()
 
         if (opcao !in opcoesDisponiveis) {
             println("Opção indisponível! Tente novamente...")
@@ -87,7 +87,7 @@ fun main() {
     println("-----------------------------------")
     println("Escolha a forma como deseja distribuir seus atributos:")
     var opcaoDistribuicao = 0
-    var opcoesDisponiveisDistribuicao = arrayOf<Int>(1, 2, 3)
+    val opcoesDisponiveisDistribuicao = arrayOf<Int>(1, 2, 3)
 
     while (opcaoDistribuicao !in opcoesDisponiveisDistribuicao) {
         println("Opção | Descrição")
